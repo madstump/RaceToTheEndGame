@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Race-to-the-End Game Builder</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #fffbe6;
+            padding: 20px;
+            max-width: 800px;
+            margin: auto;
+        }
+        .question {
+            display: none;
+            margin-bottom: 20px;
+        }
+        .question.active {
+            display: block;
+        }
+        .result {
+            display: none;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px #ccc;
+        }
+        button {
+            background-color: #f39c12;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #e67e22;
+        }
+    </style>
+</head>
+<body>
+
+<h1>🏁 Race-to-the-End Game Builder</h1>
+<div class="question active" id="q1">
+    <p><strong>1. What kind of race do you want players to experience?</strong></p>
+    <button onclick="nextQuestion('simple')">A simple race with fun challenges</button><br>
+    <button onclick="nextQuestion('strategic')">A race with choices and strategy</button><br>
+    <button onclick="nextQuestion('chaotic')">A wild and unpredictable race</button>
+</div>
+
+<div class="question" id="q2">
+    <p><strong>2. How do players move forward on the board?</strong></p>
+    <button onclick="nextQuestion('dice')">Rolling dice or spinning a wheel</button><br>
+    <button onclick="nextQuestion('cards')">Drawing cards or using movement cards</button><br>
+    <button onclick="nextQuestion('choice')">Making choices that change how far they move</button>
+</div>
+
+<div class="question" id="q3">
+    <p><strong>3. What kinds of obstacles or boosts should exist?</strong></p>
+    <button onclick="nextQuestion('traps')">Traps, setbacks, and bad luck cards</button><br>
+    <button onclick="nextQuestion('shortcuts')">Shortcuts and alternate paths</button><br>
+    <button onclick="nextQuestion('powerups')">Power-up cards and special abilities</button>
+</div>
+
+<div class="question" id="q4">
+    <p><strong>4. What kind of theme fits your race?</strong></p>
+    <button onclick="nextQuestion('adventure')">Jungle/Island adventure</button><br>
+    <button onclick="nextQuestion('funny')">Wacky, weird, or food-themed race</button><br>
+    <button onclick="nextQuestion('fantasy')">Fantasy/Quest style journey</button><br>
+    <button onclick="nextQuestion('realistic')">A real-world style race</button>
+</div>
+
+<div class="question" id="q5">
+    <p><strong>5. How competitive should this race be?</strong></p>
+    <button onclick="showResult('fierce')">Fierce – players sabotage and block each other</button><br>
+    <button onclick="showResult('balanced')">Balanced – some competition but mostly fun</button><br>
+    <button onclick="showResult('friendly')">Friendly – focus on fun, not fighting</button>
+</div>
+
+<div class="result" id="resultBox">
+    <h2>Your Game Blueprint</h2>
+    <p id="gameSummary"></p>
+    <button onclick="restartQuiz()">🔁 Retry</button>
+</div>
+
+<script>
+    let currentQuestion = 1;
+    let answers = [];
+
+    function nextQuestion(answer) {
+        answers.push(answer);
+        document.getElementById("q" + currentQuestion).classList.remove("active");
+        currentQuestion++;
+        document.getElementById("q" + currentQuestion).classList.add("active");
+    }
+
+    function showResult(finalAnswer) {
+        answers.push(finalAnswer);
+        document.getElementById("q" + currentQuestion).classList.remove("active");
+        document.getElementById("resultBox").style.display = "block";
+        document.getElementById("gameSummary").innerText = generateSummary();
+    }
+
+    function generateSummary() {
+        const style = answers[0];
+        const movement = answers[1];
+        const obstacle = answers[2];
+        const theme = answers[3];
+        const competitive = answers[4];
+
+        let styleText = style === 'simple' ? "simple and fun" :
+                        style === 'strategic' ? "strategy-based with important decisions" :
+                        "chaotic and unpredictable";
+        let moveText = movement === 'dice' ? "roll dice or spin to move" :
+                       movement === 'cards' ? "draw or play movement cards" :
+                       "make choices that affect how they move";
+        let obstacleText = obstacle === 'traps' ? "include traps, bad luck cards, or setbacks" :
+                          obstacle === 'shortcuts' ? "offer shortcuts or alternate paths" :
+                          "use power-up cards and special abilities";
+        let themeText = theme === 'adventure' ? "adventure in a jungle or island" :
+                        theme === 'funny' ? "wacky, weird, or food-themed race" :
+                        theme === 'fantasy' ? "fantasy quest with magic" :
+                        "real-world settings like cities, school, or neighborhoods";
+        let compText = competitive === 'fierce' ? "highly competitive with sabotage" :
+                       competitive === 'balanced' ? "moderately competitive with some fun interference" :
+                       "low conflict, just focused on fun";
+
+        return `Your race-to-the-end board game should be ${styleText}, where players ${moveText}. The game should ${obstacleText}, and the theme is ${themeText}. The competition level is ${compText}. Start by drawing a game board with paths and obstacles based on this summary, then create movement rules and at least 10 event or power-up cards.`;
+    }
+
+    function restartQuiz() {
+        answers = [];
+        document.getElementById("resultBox").style.display = "none";
+        currentQuestion = 1;
+        document.getElementById("q1").classList.add("active");
+    }
+</script>
+
+</body>
+</html>
